@@ -1,0 +1,3 @@
+[submodule "playbooks/ansible-basic-setup-with-docker-and-shadowsocks"]
+	path = playbooks/ansible-basic-setup-with-docker-and-shadowsocks
+	url = git@github.com:CristianCantoro/ansible-basic-setup-with-docker-and-shadowsocks.git
