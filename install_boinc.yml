@@ -1,0 +1,79 @@
+---
+- name: Install Boinc and boinctui
+  hosts: boinc-servers
+  remote_user: root
+
+  vars:
+      ansible_ssh_transfer_method: scp
+      playbook:
+        version: 0.0.1
+  tasks:
+    - name: Update root password and add SSH key.
+      include_role:
+        name: add-user
+      vars:
+        new_user: root
+        groups: "{{ root_groups }}"
+        update_user_password: "{{ update_root_password }}"
+
+    # Enable locales: it_IT.UTF-8, en_US.UTF-8, es_ES.UTF-8
+    - name: Enable locales.
+      include_role:
+        name: locales
+    - meta: flush_handlers
+
+    # Set new hostname
+    - name: Set new hostname.
+      include_role:
+        name: set-hostname
+      vars:
+        new_hostname: "{{ hostname }}"
+
+    # Resize boot partition
+    - name: Resize boot partition.
+      include_role:
+        name: resize-boot-partition
+    - meta: flush_handlers
+
+    # Add swap
+    - name: Add swap.
+      include_role:
+        name: swap
+
+    # Upgrade system
+    - name: Upgrade system.
+      include_role:
+        name: upgrade-release
+
+    # Install basic packages
+    - name: Install basic packages.
+      include_role:
+        name: install-basics
+
+    # Install Docker
+    - name: Install Docker.
+      include_role:
+        name: ansible-docker
+
+    # Add shadowsocks user
+    - name: Add shadowsocks user.
+      include_role:
+        name: add-user
+      vars:
+        new_user: "{{ shadowsocks_user }}"
+        groups: "{{ shadowsocks_group }}"
+        update_user_password: "{{ update_shadowsocks_password }}"
+
+    # Secure SSH
+    - name: Secure SSH.
+      include_role:
+        name: secure-ssh
+
+    # Enable UFW
+    - name: Enable UFW.
+      include_role:
+        name: set-ufw
+      vars:
+        policy: "{{ ufw_policy }}"
+        logging: "{{ ufw_logging }}"
+        custom_ports: "{{ ufw_custom_ports }}"
