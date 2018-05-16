@@ -55,14 +55,14 @@
       include_role:
         name: ansible-docker
 
-    # Add shadowsocks user
-    - name: Add shadowsocks user.
+    # Add boinc user
+    - name: Add boinc user.
       include_role:
         name: add-user
       vars:
-        new_user: "{{ shadowsocks_user }}"
-        groups: "{{ shadowsocks_group }}"
-        update_user_password: "{{ update_shadowsocks_password }}"
+        new_user: "{{ boinc_user }}"
+        groups: "{{ boinc_group }}"
+        update_user_password: "{{ update_boinc_password }}"
 
     # Secure SSH
     - name: Secure SSH.
