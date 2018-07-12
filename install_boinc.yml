@@ -77,3 +77,8 @@
         policy: "{{ ufw_policy }}"
         logging: "{{ ufw_logging }}"
         custom_ports: "{{ ufw_custom_ports }}"
+
+    # Pull boinc and boinctui containers
+    - name: Deploy docker containers for boinc and boinctui.
+      include_role:
+        name: deploy-docker-boinc-boinctui

@@ -1,0 +1,62 @@
+---
+# tasks file for deploy-docker-shadowsocks-libev
+
+# Install necessary pip packages.
+# See:
+#   https://github.com/ansible/ansible/issues/20492#issuecomment-313325892
+- name: Upgrade pip to the latest version.
+  pip:
+    name: pip
+    state: latest
+
+- name: Install docker-py and docker-compose pip packages.
+  pip:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - docker-py
+    - docker-compose
+
+- name: Clean-up docker, docker-py, docker-compose pip packages.
+  pip:
+    name: "{{item}}"
+    state: absent
+  with_items:
+    - docker
+    - docker-py
+    - docker-compose
+
+- name: Install docker-py and docker-compose pip packages.
+  pip:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - docker-compose
+
+# Docker compose file with format inline v2
+#
+#   docker run --rm 
+#              --name boinc-client
+#              --net=host
+#              --volume $PWD/data:/var/lib/boinc-client 
+#                  boinc/client
+#
+- name: Run with inline v2 compose
+  docker_service:
+    project_name: boinc
+    definition:
+      version: '0.1'
+      boinc:
+        container_name: boinc-client
+        image: boinc/client
+        volumes:
+          -  /var/lib/boinc-client:/var/lib/boinc-client
+        environment:
+          - BOINC_GUI_RPC_PASSWORD={{ boinc_client_boinc_gui_rpc_password }}
+        restart: on-failure
+  register: docker_compose_output
+
+- name: Assert that container is running
+  assert:
+    that:
+      - boinc.boinc.state.running
