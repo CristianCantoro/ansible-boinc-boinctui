@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+docker run -it \
+           --rm \
+           --name boinctui \
+           -e TERM='screen' \
+           --net container:boinc_client \
+                pataquets/boinctui

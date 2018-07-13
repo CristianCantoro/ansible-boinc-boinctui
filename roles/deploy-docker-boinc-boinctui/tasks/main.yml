@@ -33,24 +33,35 @@
   with_items:
     - docker-compose
 
+- name: Creates directories for the boinc_client container volume
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+  with_items:
+    - /var/lib/boinc-client
+    - /var/lib/boinc-client/slots
+    - /var/lib/boinc-client/locale
+
 # Docker compose file with format inline v2
 #
-#   docker run --rm 
-#              --name boinc-client
-#              --net=host
-#              --volume $PWD/data:/var/lib/boinc-client 
+#   docker run --rm \
+#              --name boinc_client \
+#              --volume /var/lib/boinc-client:/var/lib/boinc-client \
+#              -e BOINC_GUI_RPC_PASSWORD=<boinc_gui_rpc_password> \
 #                  boinc/client
 #
 - name: Run with inline v2 compose
   docker_service:
     project_name: boinc
     definition:
-      version: '0.1'
       boinc:
-        container_name: boinc-client
+        container_name: boinc_client
         image: boinc/client
         volumes:
-          -  /var/lib/boinc-client:/var/lib/boinc-client
+          - /var/lib/boinc-client:/var/lib/boinc-client
         environment:
           - BOINC_GUI_RPC_PASSWORD={{ boinc_client_boinc_gui_rpc_password }}
         restart: on-failure
@@ -59,4 +70,18 @@
 - name: Assert that container is running
   assert:
     that:
-      - boinc.boinc.state.running
+      # access the json output produced in the last step
+      - boinc.boinc_client.state.running
+
+- name: Pull the image pataquets/boinctui:latest
+  docker_image:
+    name: pataquets/boinctui:latest
+
+# copy docker-boinctui script to /usr/local/bin/
+- name: Copy docker-boinctui script to /usr/local/bin/
+  copy:
+    src: ./files/usr/local/bin/docker-boinctui
+    dest: /usr/local/bin/docker-boinctui
+    owner: root
+    group: root
+    mode: 0775
