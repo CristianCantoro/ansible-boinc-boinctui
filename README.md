@@ -30,7 +30,7 @@ Most of the task are imported from my other project [`ansible-basic-setup-with-d
 
 11. Enable UFW (role: `set-ufw`).
 
-12. Deploy docker container for shadowsocks (role: `deploy-docker-shadowsocks-libev`).
+12. Deploy docker containers for boinc client and boinctui (role: `deploy-docker-boinc-boinctui`).
 
 
 ## Roles:
