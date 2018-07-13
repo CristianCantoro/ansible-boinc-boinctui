@@ -77,11 +77,11 @@
   docker_image:
     name: pataquets/boinctui:latest
 
-# copy docker-boinctui script to /usr/local/bin/
-- name: Copy docker-boinctui script to /usr/local/bin/
+# copy launch_docker-boinctui script to /usr/local/bin/
+- name: Copy launch_docker-boinctui script to /usr/local/bin/
   copy:
-    src: ./files/usr/local/bin/docker-boinctui
-    dest: /usr/local/bin/docker-boinctui
+    src: ./files/usr/local/bin/launch_docker-boinctui
+    dest: /usr/local/bin/launch_docker-boinctui
     owner: root
     group: root
     mode: 0775

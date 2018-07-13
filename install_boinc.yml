@@ -6,7 +6,7 @@
   vars:
       ansible_ssh_transfer_method: scp
       playbook:
-        version: 0.0.1
+        version: 0.1
   tasks:
     - name: Update root password and add SSH key.
       include_role:
