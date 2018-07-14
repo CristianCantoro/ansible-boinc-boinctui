@@ -2,7 +2,7 @@
 ## Boinc variables
 
 # role: 'add-user' (root)
-update_root_password: false
+update_root_password: true
 root_groups: ['sudo']
 
 # role: 'locales'
@@ -15,7 +15,7 @@ langs:
 resized_boot_partition_size: '1GB'
 
 # role 'set-hostname'
-hostname: boinc01
+hostname: "{{ inventory_hostname }}"
 
 # role: 'swap'
 swapfile_size: 8G
@@ -37,11 +37,11 @@ docker_version: "18.03.1"
 # role: 'add-user'
 boinc_user: 'boinc'
 boinc_group: ['sudo', 'docker']
-update_boinc_password: false
+update_boinc_password: true
 
 # role 'ssh-secure'
-ssh_server_ports: ['22377']
-ssh_client_port: '22377'
+ssh_server_ports: ['22222']
+ssh_client_port: '22222'
 
 # role 'set-ufw'
 ufw_policy: 'deny'
