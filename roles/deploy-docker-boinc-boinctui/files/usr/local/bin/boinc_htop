@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+boincpid=$(pgrep boinc | \
+           awk 'BEGIN{a=100000}{if ($1<0+a) a=$1} END{print a}')
+
+pids=$(pstree -p "$boincpid" | \
+       perl -ne 'push @t, /\((\d+)\)/g; END { print join ",", @t }')
+
+htop -p "$pids"
+
+exit 0

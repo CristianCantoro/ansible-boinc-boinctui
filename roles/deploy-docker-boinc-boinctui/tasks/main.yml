@@ -85,3 +85,12 @@
     owner: root
     group: root
     mode: 0775
+
+# copy boinc_htop script to /usr/local/bin/
+- name: Copy boinc_htop script to /usr/local/bin/
+  copy:
+    src: ./files/usr/local/bin/boinc_htop
+    dest: /usr/local/bin/boinc_htop
+    owner: root
+    group: root
+    mode: 0775
