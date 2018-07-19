@@ -1,4 +1,4 @@
 ---
 # defaults file for deploy-docker-shadowsocks-libev
-shadowsocks_server_port: 443
-shadowsocks_server_encryption_method: aes-256-cfb
+boinc_client_hostname: boinc
+boinc_client_boinc_gui_rpc_password: 123
