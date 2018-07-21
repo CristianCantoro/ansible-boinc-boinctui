@@ -32,7 +32,7 @@ docker_edition: "ce"
 docker_channel: "stable"
 
 ## What version of Docker do you want to install?
-docker_version: "18.03.1"
+docker_version: "18.06.0"
 
 # role: 'add-user'
 boinc_user: 'boinc'
