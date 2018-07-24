@@ -41,7 +41,6 @@ update_boinc_password: true
 
 # role 'ssh-secure'
 ssh_server_ports: ['22222']
-ssh_client_port: '22222'
 
 # role 'set-ufw'
 ufw_policy: 'deny'
