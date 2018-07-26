@@ -1,0 +1,16 @@
+[Unit]
+Description=BOINC client container
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=/usr/bin/docker pull boinc/client
+ExecStart=/usr/bin/docker run --rm \
+                              --hostname "{{boinc_client_hostname}}" \
+                              --name "{{boinc_client_name}}" \
+                              -v "{{boinc_client_volume}}":/var/lib/boinc-client \
+                                  boinc/client
+ExecStop=/usr/bin/docker stop "{{boinc_client_hostname}}"
+
+[Install]
+WantedBy=multi-user.target

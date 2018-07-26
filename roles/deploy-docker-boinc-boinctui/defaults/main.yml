@@ -1,4 +1,5 @@
 ---
-# defaults file for deploy-docker-shadowsocks-libev
+# defaults file for deploy-docker-boinc-boinctui
+boinc_client_name: boinc_client
 boinc_client_hostname: boinc
-boinc_client_boinc_gui_rpc_password: 123
+boinc_client_volume: boinc_data

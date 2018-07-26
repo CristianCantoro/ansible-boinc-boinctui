@@ -46,7 +46,7 @@ ssh_server_ports: ['22222']
 ufw_policy: 'deny'
 ufw_logging: off
 ufw_custom_ports:
-  - {rule: limit, port: "{{ ssh_client_port }}", proto: tcp}
+  - {rule: limit, port: "{{ ssh_server_ports|join(',') }}", proto: tcp}
 
 # role 'deploy-docker-boinc-boinctui'
 boinc_client_hostname: "{{ inventory_hostname }}_dbc"
