@@ -68,3 +68,5 @@ ansible-playbook -v \
                  -i inventories/production/hosts \
                  ${options[*]:-} \
                     install_boinc.yml
+
+exit 0
