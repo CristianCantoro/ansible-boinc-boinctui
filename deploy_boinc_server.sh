@@ -17,7 +17,7 @@ Deploy a BOINC server.
 
 Options:
   -h              Show this help and exits.
-  -s <ssh_port>   Value of the option ssh_server_ports
+  -s <ssh_port>   Value of the option ssh_server_ports.
 
 Example:
   deploy_boinc_server.sh"
@@ -35,10 +35,12 @@ while getopts ":hs:" opt; do
 
       int_regex='^[0-9]+$'
       if ! [[ "$ssh_port" =~ $int_regex ]] ; then
-        (>&2 echo "Error: option -s needs a number, got $ssh_port instead.")
+        (>&2 echo "Error: option -s needs a number," \
+                  "got $ssh_port instead.")
         exit 1
       elif ! [[ "$ssh_port" -gt 0  && "$ssh_port" -le 65536 ]]; then
-        (>&2 echo "Error: option -s is for an ssh_port 0 < ssh_port < 65536.")
+        (>&2 echo "Error: option -s is for an ssh_port:" \
+                  "0 < ssh_port <= 65536. Got $ssh_port instead.")
         exit 1
       fi
       ;;
@@ -59,7 +61,7 @@ fi
 
 options=()
 if [[ "$ssh_port" -gt 0 ]]; then
-  options=(--extra-vars "{'ssh_server_ports': [$ssh_port]}")
+  options+=(--extra-vars "{\"ssh_server_ports\": [$ssh_port]}")
 fi
 
 set -x
