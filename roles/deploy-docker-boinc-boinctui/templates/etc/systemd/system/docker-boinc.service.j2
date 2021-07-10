@@ -6,13 +6,13 @@ Requires=docker.service
 [Service]
 ExecStartPre=/usr/bin/docker pull boinc/client
 ExecStart=/usr/bin/docker run --rm \
-                              --hostname "{{container_hostname}}" \
-                              --name "{{container_name}}" \
+                              --name {{container_name}} \
+                              --hostname {{container_hostname}} \
                               -e BOINC_GUI_RPC_PASSWORD="{{boinc_rpc_password}}" \
-                              -v "{{boinc_volume}}":/var/lib/boinc \
-                              -v "{{boinc_client_volume}}":/var/lib/boinc-client \
+                              -v {{boinc_volume}}:/var/lib/boinc \
+                              -v {{boinc_client_volume}}:/var/lib/boinc-client \
                                   boinc/client
-ExecStop=/usr/bin/docker stop "{{container_name}}"
+ExecStop=/usr/bin/docker stop {{container_name}}
 
 [Install]
 WantedBy=multi-user.target
