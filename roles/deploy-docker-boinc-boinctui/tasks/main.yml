@@ -50,7 +50,7 @@
         image: boinc/client
         hostname: "{{ boinc_client_hostname }}"
         volumes:
-          - boinc_data:/var/lib/boinc-client
+          - boinc_data:/var/lib/boinc
         restart: always
   register: docker_compose_output
 
@@ -63,8 +63,8 @@
 # copy systemd unit to /etc/systemd/system/
 - name: Copy systemd unit file for BOINC client.
   template:
-    src: ./templates/etc/systemd/system/docker-boinc-client.service.j2
-    dest: /etc/systemd/system/docker-boinc-client.service
+    src: ./templates/etc/systemd/system/docker-boinc.service.j2
+    dest: /etc/systemd/system/docker-boinc.service
     mode: 0644
 
 # enable service, reload systemd services, and
@@ -80,20 +80,20 @@
   docker_image:
     name: pataquets/boinctui:latest
 
-# copy launch_docker-boinctui script to /usr/local/bin/
-- name: Copy launch_docker-boinctui script to /usr/local/bin/
+# copy docker-boinctui script to /usr/local/bin/
+- name: Copy docker-boinctui script to /usr/local/bin/
   copy:
-    src: ./files/usr/local/bin/launch_docker-boinctui
-    dest: /usr/local/bin/launch_docker-boinctui
+    src: ./files/usr/local/bin/docker-boinctui
+    dest: /usr/local/bin/docker-boinctui
     owner: root
     group: root
     mode: 0775
 
-# copy boinc_htop script to /usr/local/bin/
-- name: Copy boinc_htop script to /usr/local/bin/
+# copy boinc-htop script to /usr/local/bin/
+- name: Copy boinc-htop script to /usr/local/bin/
   copy:
-    src: ./files/usr/local/bin/boinc_htop
-    dest: /usr/local/bin/boinc_htop
+    src: ./files/usr/local/bin/boinc-htop
+    dest: /usr/local/bin/boinc-htop
     owner: root
     group: root
     mode: 0775
