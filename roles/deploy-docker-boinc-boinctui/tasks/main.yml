@@ -59,7 +59,7 @@
   assert:
     that:
       # access the json output produced in the last step
-      - boinc.{{container_name}}.state.running
+      - ansible_facts["boinc"]["{{container_name}}"]["state"]["running"]
 
 # copy systemd unit to /etc/systemd/system/
 - name: Copy systemd unit file for BOINC client.
