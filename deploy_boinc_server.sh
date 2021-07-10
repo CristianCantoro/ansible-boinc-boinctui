@@ -11,45 +11,31 @@ fi
 usage() {
   echo \
 "Usage:
-  deploy_boinc_server.sh [options] [<ssh_port>]
+  deploy_boinc_server.sh [args]
+  deploy_boinc_server.sh -h
 
 Deploy a BOINC server.
 
 Options:
-  -h              Show this help and exits.
-  -s <ssh_port>   Value of the option ssh_server_ports.
+  [args]      Pass all the arguments to the ansible-playbook.
+  -h          Show this help and exits.
 
 Example:
   deploy_boinc_server.sh"
 }
 
 flag_help=false
-ssh_port='0'
-while getopts ":hs:" opt; do
+while getopts ":h" opt; do
   case $opt in
     h)
       flag_help=true
       ;;
-    s)
-      ssh_port="$OPTARG"
-
-      int_regex='^[0-9]+$'
-      if ! [[ "$ssh_port" =~ $int_regex ]] ; then
-        (>&2 echo "Error: option -s needs a number," \
-                  "got $ssh_port instead.")
-        exit 1
-      elif ! [[ "$ssh_port" -gt 0  && "$ssh_port" -le 65536 ]]; then
-        (>&2 echo "Error: option -s is for an ssh_port:" \
-                  "0 < ssh_port <= 65536. Got $ssh_port instead.")
-        exit 1
-      fi
-      ;;
-    \?)
-      (>&2 echo "Invalid option: -$OPTARG")
-      ;;
     :)
       (>&2 echo "Option -$OPTARG requires an argument.")
       exit 1
+      ;;
+    *)
+      true
       ;;
   esac
 done
@@ -59,16 +45,16 @@ if $flag_help; then
   exit 0
 fi
 
-options=()
-if [[ "$ssh_port" -gt 0 ]]; then
-  options+=(--extra-vars "{\"ssh_server_ports\": [$ssh_port]}")
-fi
+# store arguments in a special array
+declare -a args
+args=( "$@" )
+
+# get number of elements
+# nargs="${#args[@]}"
 
 set -x
 # shellcheck disable=SC2086
-ansible-playbook -v \
-                 -i inventories/production/hosts \
-                 ${options[*]:-} \
-                    install_boinc.yml
+ansible-playbook -v -i inventories/production/hosts "${args[@]:-}" \
+  install_boinc.yml
 
 exit 0
