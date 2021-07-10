@@ -7,5 +7,4 @@
 #   - A hostname/ip can be a member of multiple groups
 
 [boinc-servers]
-# boinc01 	ansible_ssh_user=root ansible_python_interpreter=/usr/bin/python3
-boinc02 	ansible_ssh_user=root ansible_python_interpreter=/usr/bin/python3
+boinc 	ansible_ssh_user=root ansible_python_interpreter=/usr/bin/python3
