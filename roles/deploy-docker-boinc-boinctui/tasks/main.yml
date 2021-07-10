@@ -35,7 +35,7 @@
 # Docker compose file with format inline v2
 #
 #   docker run --rm \
-#              --hostname <boinc_client_hostname> \
+#              --hostname <hostaname>_dbc \
 #              --name boinc_client \
 #              --volume boinc_data:/var/lib/boinc-client \
 #              -e BOINC_GUI_RPC_PASSWORD=<boinc_gui_rpc_password> \
@@ -46,9 +46,9 @@
     project_name: boinc
     definition:
       boinc:
-        container_name: boinc_client
+        container_name: "{{container_name}}"
         image: boinc/client
-        hostname: "{{ boinc_client_hostname }}"
+        hostname: "{{container_hostname}}"
         volumes:
           - boinc_data:/var/lib/boinc
         restart: always
@@ -58,7 +58,7 @@
   assert:
     that:
       # access the json output produced in the last step
-      - boinc.boinc_client.state.running
+      - boinc.{{container_name}}.state.running
 
 # copy systemd unit to /etc/systemd/system/
 - name: Copy systemd unit file for BOINC client.
@@ -67,14 +67,14 @@
     dest: /etc/systemd/system/docker-boinc.service
     mode: 0644
 
-# enable service, reload systemd services, and
-# restart docker-boinc-client service
-# - name: restart docker-boinc-client service
-#   systemd:
-#     state: restarted
-#     daemon_reload: yes
-#     name: docker-boinc-client
-#     enabled: yes
+
+# enable service, reload systemd services, and restart docker-boinc service
+- name: restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+    name: docker-boinc
 
 - name: Pull the image pataquets/boinctui:latest
   docker_image:
