@@ -29,11 +29,11 @@
       vars:
         new_hostname: "{{ hostname }}"
 
-    # Resize boot partition
-    - name: Resize boot partition.
-      include_role:
-        name: resize-boot-partition
-    - meta: flush_handlers
+    # # Resize boot partition
+    # - name: Resize boot partition.
+    #   include_role:
+    #     name: resize-boot-partition
+    # - meta: flush_handlers
 
     # Add swap
     - name: Add swap.
