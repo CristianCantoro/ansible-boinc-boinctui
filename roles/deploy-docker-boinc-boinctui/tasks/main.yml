@@ -37,8 +37,9 @@
 #   docker run --rm \
 #              --hostname <hostaname>_dbc \
 #              --name boinc_client \
-#              --volume boinc_data:/var/lib/boinc-client \
 #              -e BOINC_GUI_RPC_PASSWORD=<boinc_gui_rpc_password> \
+#              --volume boinc_data:/var/lib/boinc \
+#              --volume boinc_client_data:/var/lib/boinc-client \
 #                  boinc/client
 #
 - name: Run with inline v2 compose

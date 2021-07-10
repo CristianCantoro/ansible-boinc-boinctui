@@ -50,4 +50,4 @@ ufw_custom_ports:
 
 # role 'deploy-docker-boinc-boinctui'
 container_hostname: "{{ inventory_hostname }}_dbc"
-container_name: "boinc_client"
+container_name: "boinc-client"

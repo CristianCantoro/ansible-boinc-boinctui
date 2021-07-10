@@ -1,7 +1,7 @@
 ---
 # defaults file for deploy-docker-boinc-boinctui
-boinc_name: boinc
-boinc_hostname: boinc
+container_hostname: boinc-host
+container_name: boinc-client
 boinc_rpc_password: boinc
 boinc_volume: boinc_data
-boinc_client_volume: boinc-client_data
+boinc_client_volume: boinc_client_data

@@ -12,7 +12,7 @@ ExecStart=/usr/bin/docker run --rm \
                               -v "{{boinc_volume}}":/var/lib/boinc \
                               -v "{{boinc_client_volume}}":/var/lib/boinc-client \
                                   boinc/client
-ExecStop=/usr/bin/docker stop "{{container_hostname}}"
+ExecStop=/usr/bin/docker stop "{{container_name}}"
 
 [Install]
 WantedBy=multi-user.target
