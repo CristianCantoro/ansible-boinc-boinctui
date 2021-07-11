@@ -32,41 +32,18 @@
   with_items:
     - docker-compose
 
-# Docker compose file with format inline v2
-#
-#   docker run --rm \
-#              --hostname <hostaname>_dbc \
-#              --name boinc_client \
-#              -e BOINC_GUI_RPC_PASSWORD=<boinc_gui_rpc_password> \
-#              --volume boinc_data:/var/lib/boinc \
-#              --volume boinc_client_data:/var/lib/boinc-client \
-#                  boinc/client
-#
-- name: Run with inline v2 compose
-  docker_service:
-    project_name: boinc
-    definition:
-      boinc:
-        container_name: "{{container_name}}"
-        image: boinc/client
-        hostname: "{{container_hostname}}"
-        volumes:
-          - boinc_data:/var/lib/boinc
-        restart: always
-  register: docker_compose_output
-
-- name: Assert that container is running
-  assert:
-    that:
-      # access the json output produced in the last step
-      - ansible_facts["boinc"]["{{container_name}}"]["state"]["running"]
-
 # copy systemd unit to /etc/systemd/system/
 - name: Copy systemd unit file for BOINC client.
   template:
     src: ./templates/etc/systemd/system/docker-boinc.service.j2
     dest: /etc/systemd/system/docker-boinc.service
     mode: 0644
+
+- name: Assert that container is running
+  assert:
+    that:
+      # access the json output produced in the last step
+      - ansible_facts["boinc"]["{{container_name}}"]["state"]["running"]
 
 
 # enable service, reload systemd services, and restart docker-boinc service
