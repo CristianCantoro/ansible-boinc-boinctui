@@ -39,13 +39,6 @@
     dest: /etc/systemd/system/docker-boinc.service
     mode: 0644
 
-- name: Assert that container is running
-  assert:
-    that:
-      # access the json output produced in the last step
-      - ansible_facts["boinc"]["{{container_name}}"]["state"]["running"]
-
-
 # enable service, reload systemd services, and restart docker-boinc service
 - name: restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
   systemd:
@@ -53,6 +46,12 @@
     daemon_reload: yes
     enabled: yes
     name: docker-boinc
+
+- name: Assert that container is running
+  assert:
+    that:
+      # access the json output produced in the last step
+      - ansible_facts["boinc"]["{{container_name}}"]["state"]["running"]
 
 - name: Pull the image pataquets/boinctui:latest
   docker_image:
