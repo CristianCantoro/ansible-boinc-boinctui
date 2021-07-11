@@ -1,8 +1,22 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2128
+SOURCED=false && [ "$0" = "$BASH_SOURCE" ] || SOURCED=true
+
+# bash strict mode
+if ! $SOURCED; then
+  set -euo pipefail
+  IFS=$'\n\t'
+fi
+
+container_name="$(docker ps \
+                    --filter 'ancestor=boinc/client' \
+                    --format '{{.Names}}')"
 
 docker run -it \
            --rm \
            --name boinctui \
            -e TERM='screen' \
-           --net container:boinc_client \
+           --net container:"${container_name}" \
                 pataquets/boinctui
+
+exit 0

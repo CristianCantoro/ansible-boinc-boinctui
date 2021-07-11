@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2128
+SOURCED=false && [ "$0" = "$BASH_SOURCE" ] || SOURCED=true
+
+# bash strict mode
+if ! $SOURCED; then
+  set -euo pipefail
+  IFS=$'\n\t'
+fi
 
 boincpid=$(pgrep boinc | \
            awk 'BEGIN{a=100000}{if ($1<0+a) a=$1} END{print a}')
