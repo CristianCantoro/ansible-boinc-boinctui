@@ -1,2 +1,5 @@
 # ignore .retry files
 *.retry
+
+# ignore log dir
+log/
