@@ -2,6 +2,8 @@
 - name: Install Boinc and boinctui
   hosts: boinc-servers
   remote_user: root
+  collections:
+    - ansible-timezone
 
   vars:
       ansible_ssh_transfer_method: scp
@@ -28,6 +30,13 @@
         name: set-hostname
       vars:
         new_hostname: "{{ hostname }}"
+
+    # Set timezone to UTC
+    - name: Deploy docker containers for boinc and boinctui.
+      import_role:
+        name: ansible-timezone
+      vars:
+        timezone: "UTC"
 
     # # Resize boot partition
     # - name: Resize boot partition.
