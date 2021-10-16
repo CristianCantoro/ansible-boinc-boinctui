@@ -1,0 +1,11 @@
+[Unit]
+Description=GoTTY+boinctui container
+After=docker-boinc.service
+Requires=docker-boinc.service
+
+[Service]
+Environment=TERM=xterm-256color
+ExecStart=/usr/local/bin/gotty --config /etc/gotty-boinctui.conf boinctui
+
+[Install]
+WantedBy=multi-user.target

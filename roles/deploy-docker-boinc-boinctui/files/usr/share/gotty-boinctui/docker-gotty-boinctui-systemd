@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2128
+SOURCED=false && [ "$0" = "$BASH_SOURCE" ] || SOURCED=true
+
+# bash strict mode
+if ! $SOURCED; then
+  set -euo pipefail
+  IFS=$'\n\t'
+fi
+
+docker run --tty \
+           --rm \
+           --name gotty-boinctui \
+           --env TERM='xterm-256color' \
+           --log-driver=none \
+           --network boinc-net \
+           --publish 8080:8080 \
+             cristiancantoro/gotty-boinctui:arm64v8
+
+exit 0

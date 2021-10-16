@@ -57,20 +57,33 @@
   docker_image:
     name: pataquets/boinctui:latest
 
-# copy docker-boinctui script to /usr/local/bin/
-- name: Copy docker-boinctui script to /usr/local/bin/
+# copy files
+- name: copying server.crt and ca.crt
   copy:
-    src: ./files/usr/local/bin/docker-boinctui
-    dest: /usr/local/bin/docker-boinctui
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
     owner: root
     group: root
-    mode: 0775
-
-# copy boinc-htop script to /usr/local/bin/
-- name: Copy boinc-htop script to /usr/local/bin/
-  copy:
-    src: ./files/usr/local/bin/boinc-htop
-    dest: /usr/local/bin/boinc-htop
-    owner: root
-    group: root
-    mode: 0775
+  loop:
+    - {src: './files/usr/local/bin/boinc-htop',
+       dest: '/usr/local/bin/boinc-htop',
+       mode: 0775
+       }
+    - {src: './files/usr/local/bin/docker-boinctui',
+       dest: '/usr/local/bin/docker-boinctui',
+       mode: 0775
+       }
+    - {src: './files/usr/share/gotty-boinctui/docker-gotty-boinctui-systemd',
+       dest: '/usr/share/gotty-boinctui/docker-gotty-boinctui-systemd',
+       mode: 0775
+       }
+    - {src: './files/etc/systemd/system/gotty-boinctui.service',
+       dest: '/etc/systemd/system/gotty-boinctui.service',
+       mode: 0644
+       }
+    - {src: './files/etc/gotty-boinctui.conf',
+       dest: '/etc/gotty-boinctui.conf',
+       mode: 0644
+       }
+  become: true
