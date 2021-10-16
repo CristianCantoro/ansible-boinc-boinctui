@@ -9,7 +9,7 @@ if ! $SOURCED; then
 fi
 
 container_name="$(docker ps \
-                    --filter 'ancestor=boinc/client' \
+                    --filter 'ancestor=cristiancantoro/boinc-client:arm64v8' \
                     --format '{{.Names}}')"
 
 docker run -it \
