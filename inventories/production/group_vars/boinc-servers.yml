@@ -2,7 +2,7 @@
 ## Boinc variables
 
 # role: 'add-user' (root)
-update_root_password: true
+update_root_password: false
 root_groups: ['sudo']
 
 # role: 'locales'
@@ -32,7 +32,7 @@ docker_edition: "ce"
 docker_channel: "stable"
 
 ## What version of Docker do you want to install?
-docker_version: "18.06.0"
+docker_version: "20.10.12"
 
 # role: 'add-user'
 boinc_user: 'boinc'
